@@ -10,9 +10,6 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
 
     public Department findByDepartmentName(String departmentName);
 
-    // docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation
-//    @Query(value = "", nativeQuery = true)
-//    @Query("") // JPQL query
     public Department findByDepartmentNameIgnoreCase(String departmentName);
 
 }
