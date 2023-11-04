@@ -1,6 +1,7 @@
 package com.example.Springboot.lar.service;
 
 import com.example.Springboot.lar.entity.Department;
+import com.example.Springboot.lar.error.DepartmentNotFoundException;
 import com.example.Springboot.lar.repository.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
@@ -27,8 +29,15 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Department fetchDepartmentById(Long departmentId) {
-        return departmentRepository.findById(departmentId).get();
+    public Department fetchDepartmentById(Long departmentId) throws DepartmentNotFoundException {
+        Optional<Department> department =
+                departmentRepository.findById(departmentId);
+
+        if(!department.isPresent()) {
+            throw new DepartmentNotFoundException("Department Not Available");
+        }
+
+        return department.get();
     }
 
     @Override
